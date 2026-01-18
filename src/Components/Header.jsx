@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import PlusIcon from "../assets/plus.svg?react";
 import "../css/header.css";
 import Input from "./Input";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { GlobalContext } from "../GlobalContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Header = () => {
   const [search, setSearch] = useState("");
+  const { usuario, loading } = useContext(GlobalContext);
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    try {
+      signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  if (loading) return null;
   return (
     <div className="header-bg">
       <header className="header-container">
@@ -23,10 +38,23 @@ const Header = () => {
           onChange={({ target }) => setSearch(target.value)}
           placeholder="Digite um jogo..."
         />
-        <button className="my-game">
-          <PlusIcon />
-          MY GAMES
-        </button>
+        {usuario ? (
+          <>
+            <Link to="/meus-jogos" className="my-game">
+              MY GAMES
+              <PlusIcon />
+            </Link>
+          </>
+        ) : (
+          <Link className="my-game" to="/login">
+            LOGIN / CADASTRO
+          </Link>
+        )}
+        {usuario && (
+          <button onClick={handleLogout} className="logout">
+            Sair
+          </button>
+        )}
       </header>
     </div>
   );

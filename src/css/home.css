@@ -1,14 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+
 .container-home {
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 60px;
+  font-family: "Poppins", sans-serif;
+}
+
+.loading {
+  color: #00de93;
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.5rem;
 }
 
 .grid-games {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
-  padding: 20px;
+
   list-style-type: none;
 }
 
@@ -19,16 +31,21 @@
 }
 
 .game-card {
-  background: linear-gradient(145deg, #1a1a2e, #16213e);
-  max-width: 400px;
+  position: relative;
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  background-color: #1a1a2e;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  aspect-ratio: 3/4;
   cursor: pointer;
-  transition: opacity 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 20px;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 222, 147, 0.2);
 }
 
 .container-home h1 {
@@ -41,6 +58,16 @@
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 20px rgba(0, 222, 147, 0.35);
   letter-spacing: 1px;
+}
+
+.container-home h1::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #00de93;
+  margin: 10px auto 0;
+  border-radius: 2px;
 }
 
 .game-card:hover {
@@ -73,4 +100,83 @@
   transition: all 0.3s ease;
   text-transform: uppercase;
   box-shadow: 0 4px 12px rgba(0, 222, 147, 0.3);
+  margin-left: 30px;
+  margin-top: 10px;
+}
+
+.image-container {
+  width: 100%;
+  height: 100%;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.game-card:hover .image-container img {
+  transform: scale(1.1);
+}
+
+.card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.6),
+    transparent
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.game-card:hover .card-content {
+  transform: translateY(0);
+}
+
+.card-info h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+}
+
+.rating {
+  font-size: 0.9rem;
+  color: #ffd700;
+  font-weight: 600;
+}
+
+.btn-details {
+  background: #00de93;
+  color: #0f0f1e;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.game-card:hover .btn-details {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btn-details:hover {
+  background: #fff;
+  color: #00de93;
 }
