@@ -8,6 +8,15 @@ import "../css/gamedetails.css";
 const Gamedetails = () => {
   const { id } = useParams();
   const [game, setGame] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    const minhaLista = localStorage.getItem("@games");
+    const gamesSalvos = JSON.parse(minhaLista) || [];
+    const hasGame = gamesSalvos.some((gameSalvo) => gameSalvo.id === game?.id);
+    setIsSaved(hasGame);
+  }, [game]);
+
   useEffect(() => {
     async function fetchData() {
       const data = await loadGame(id);
@@ -18,6 +27,35 @@ const Gamedetails = () => {
 
   if (!game) {
     return <p className="carregando-jogo">Carregando detalhes do jogo...</p>;
+  }
+
+  function saveGame() {
+    const minhaLista = localStorage.getItem("@games");
+
+    let gamesSalvos = JSON.parse(minhaLista) || [];
+
+    const hasGame = gamesSalvos.some((gamesalvo) => {
+      return gamesalvo.id === game.id;
+    });
+
+    if (hasGame) return;
+    gamesSalvos.push(game);
+    localStorage.setItem("@games", JSON.stringify(gamesSalvos));
+    setIsSaved(true);
+    alert("Jogo Salvo com sucesso!");
+  }
+
+  function removeGame() {
+    const minhaLista = localStorage.getItem("@games");
+    let gamesSalvos = JSON.parse(minhaLista) || [];
+
+    const novaLista = gamesSalvos.filter(
+      (gameSalvo) => gameSalvo.id !== game.id,
+    );
+
+    localStorage.setItem("@games", JSON.stringify(novaLista));
+    setIsSaved(false);
+    alert("Jogo removido da lista!");
   }
 
   return (
@@ -53,7 +91,15 @@ const Gamedetails = () => {
           </div>
           <p className="description">{game.description_raw?.slice(0, 414)}</p>
           <div className="actions">
-            <Link className="btn-add">Adicionar aos meus jogos</Link>
+            {isSaved ? (
+              <button onClick={removeGame} className="btn-remove">
+                Remover dos meus jogos
+              </button>
+            ) : (
+              <button onClick={saveGame} className="btn-add">
+                Adcionar aos meus jogos
+              </button>
+            )}
             <Link className="btn-rank">Rankear Jogo</Link>
           </div>
         </div>
