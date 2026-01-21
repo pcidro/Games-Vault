@@ -1,14 +1,16 @@
-import React from "react";
+import React, { createContext, useContext } from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { loadGame } from "../api";
 import { Link } from "react-router-dom";
 import "../css/gamedetails.css";
+import { GlobalContext } from "../GlobalContext";
 
 const Gamedetails = () => {
   const { id } = useParams();
   const [game, setGame] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
+  const { usuario, loading } = useContext(GlobalContext);
 
   useEffect(() => {
     const minhaLista = localStorage.getItem("@games");
@@ -58,6 +60,7 @@ const Gamedetails = () => {
     alert("Jogo removido da lista!");
   }
 
+  if (loading) return null;
   return (
     <section className="game-hero">
       <div className="hero-background">
@@ -91,16 +94,26 @@ const Gamedetails = () => {
           </div>
           <p className="description">{game.description_raw?.slice(0, 414)}</p>
           <div className="actions">
-            {isSaved ? (
-              <button onClick={removeGame} className="btn-remove">
-                Remover dos meus jogos
-              </button>
+            {usuario ? (
+              <>
+                {isSaved ? (
+                  <button onClick={removeGame} className="btn-remove">
+                    Remover dos meus jogos
+                  </button>
+                ) : (
+                  <button onClick={saveGame} className="btn-add">
+                    Adcionar aos meus jogos
+                  </button>
+                )}
+                <Link className="btn-rank">Rankear Jogo</Link>
+              </>
             ) : (
-              <button onClick={saveGame} className="btn-add">
-                Adcionar aos meus jogos
-              </button>
+              <p className="login-message">
+                Faça <Link to="/login">Login</Link> ou{" "}
+                <Link to="/login/criar">Crie</Link> uma conta para rankear seus
+                jogos.
+              </p>
             )}
-            <Link className="btn-rank">Rankear Jogo</Link>
           </div>
         </div>
       </div>

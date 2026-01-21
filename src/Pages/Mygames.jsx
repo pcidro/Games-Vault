@@ -14,11 +14,19 @@ const Mygames = () => {
   function removefromList(id) {
     const newList = games.filter((listGame) => listGame.id !== id);
     setGames(newList);
+    localStorage.setItem("@games", JSON.stringify(newList));
   }
 
   return (
     <section className="container-my-games">
-      Meus Jogos
+      <h1>Meus jogos</h1>
+
+      {games.length === 0 && (
+        <p>
+          Você não possui nenhum jogo salvo.{" "}
+          <Link to="/">Salve algum jogo!</Link>{" "}
+        </p>
+      )}
       <ul>
         {games.map((game) => (
           <li key={game.id}>

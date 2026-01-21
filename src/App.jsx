@@ -8,6 +8,7 @@ import NotFound from "./Pages/NotFound.jsx";
 import { GlobalStorage } from "./GlobalContext.jsx";
 import Gamedetails from "./Pages/Gamedetails.jsx";
 import Mygames from "./Pages/Mygames.jsx";
+import ProtectedRoute from "./Pages/ProtectedRoute.jsx";
 
 const App = () => {
   return (
@@ -18,7 +19,14 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/jogo/:id" element={<Gamedetails />} />
           <Route path="login/*" element={<Login />} />
-          <Route path="meus-jogos" element={<Mygames />} />
+          <Route
+            path="meus-jogos"
+            element={
+              <ProtectedRoute>
+                <Mygames />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
