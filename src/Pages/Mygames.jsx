@@ -35,13 +35,15 @@ const Mygames = () => {
         </p>
       )}
 
-      <input
-        type="text"
-        placeholder="Buscar jogo..."
-        value={searchGame}
-        onChange={(e) => setSearchGame(e.target.value)}
-        className="search-input"
-      />
+      {games.length > 0 && (
+        <input
+          type="text"
+          placeholder="Buscar jogo..."
+          value={searchGame}
+          onChange={(e) => setSearchGame(e.target.value)}
+          className="search-input"
+        />
+      )}
       <ul className="my-games-grid">
         {filteredGames.map((game) => (
           <li className="my-game-card" key={game.id}>
