@@ -6,9 +6,11 @@ const Modal = ({ isOpen, onClose, children }) => {
   return (
     <div>
       <div className="modal-container" onClick={onClose}>
-        <div className="modal">
-          <button>X</button>
-          <div>{children}</div>
+        <div className="modal" onClick={(e) => e.stopPropagation()}>
+          <button className="fechar-modal" onClick={onClose}>
+            X
+          </button>
+          <div className="modal-content">{children}</div>
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "../css/gamedetails.css";
 import { GlobalContext } from "../GlobalContext";
 import Modal from "../Components/Modal";
+import Stars from "../Components/Stars";
 
 const Gamedetails = () => {
   const { id } = useParams();
@@ -119,8 +120,13 @@ const Gamedetails = () => {
               </p>
             )}
             <Modal onClose={() => setOpenModal(false)} isOpen={openModal}>
-              <h2>O que você achou de {game.name}? </h2>
-              <p>Teste modal</p>
+              <h2 className="avaliar-title">
+                O que você achou de {game.name}?{" "}
+              </h2>
+              <div>
+                <Stars />
+              </div>
+              <button className="btn-avaliar">Enviar avaliação</button>
             </Modal>
           </div>
         </div>
